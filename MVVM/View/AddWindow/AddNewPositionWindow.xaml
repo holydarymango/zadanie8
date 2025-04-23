@@ -1,0 +1,101 @@
+﻿<Window x:Class="Proect_8.MVVM.View.AddWindow.AddNewPositionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Proect_8.MVVM.View.AddWindow" xmlns:viewmodel="clr-namespace:Proect_8.MVVM.ViewModel"
+        mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Height="350" 
+        Width="500"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        x:Name="AddNewPositionWin">
+    
+    <Window.DataContext>
+        <viewmodel:MainViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0"
+         Background="#000000">
+            <Grid HorizontalAlignment="Stretch">
+                <StackPanel HorizontalAlignment="Left"
+                     VerticalAlignment="Center"
+                     Margin="5 0 0 0">
+                    <TextBlock Text="Добавить должность"
+                        Foreground="White"
+                        FontWeight="SemiBold"/>
+                </StackPanel>
+
+                <StackPanel HorizontalAlignment="Right"
+                     Orientation="Horizontal">
+                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                     x:Name="BtnClose"
+                     Click="BtnClose_Click"
+                     Cursor="Hand"
+                     Margin="0 0 5 0">
+                        <materialDesign:PackIcon Kind="Close"
+                                          Foreground="White"
+                                          Width="15"
+                                          Height="15"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Должность"
+                       Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
+            <TextBox x:Name="TxbPositionName"
+                     MaxLength="25"
+                     FontSize="18"
+                     Text="{Binding PositionName}"
+                     materialDesign:TransitionAssist.DisableTransitions="True"/>
+
+            <TextBlock Text="Зарплата"
+                       Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
+            <TextBox x:Name="TxbSalary"
+                     MaxLength="25"
+                     FontSize="18"
+                     Text="{Binding Salary}"
+                     materialDesign:TransitionAssist.DisableTransitions="True"/>
+            
+            <TextBlock Text="Макс. кол-во сотрудников"
+                       Margin="0 8 0 0"
+                       Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
+            <TextBox x:Name="TxbMaxCountOfEmplouees"
+                     MaxLength="10"
+                     FontSize="18"
+                     Text="{Binding PositionMaxCountOfEmp}"
+                     materialDesign:TransitionAssist.DisableTransitions="True"/>
+            <ComboBox x:Name="CmbDepartment"
+                      Margin="0 5 0 0"
+                      ItemsSource="{Binding AllDepartments}"
+                      SelectedItem="{Binding PositionDepartment}"
+                      DisplayMemberPath="DepartmentName"
+                      materialDesign:HintAssist.Hint="Отдел"
+                      FontSize="23"/>
+        </StackPanel>
+        <Button Grid.Row="2" 
+                Content="Добавить должность"
+                Cursor="Hand"
+                Foreground="White"
+                Command="{Binding CreateNewPosition}"
+                CommandParameter="{Binding ElementName=AddNewPositionWin}"/>
+    </Grid>
+</Window>

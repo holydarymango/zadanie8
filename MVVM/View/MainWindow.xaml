@@ -1,0 +1,191 @@
+﻿<Window x:Class="Proect_8.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Proect_8" 
+        xmlns:viewmodel="clr-namespace:Proect_8.MVVM.ViewModel"
+        mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Height="500" 
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="CanResizeWithGrip"
+        AllowsTransparency="True">
+     <Window.DataContext>
+        <viewmodel:MainViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0"
+                Background="#000000"
+                MouseDown="Border_MouseDown">
+            <Grid HorizontalAlignment="Stretch">
+                <StackPanel HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Margin="5 0 0 0">
+                    <TextBlock Text="практическая №8"
+                               Foreground="White"
+                               FontWeight="SemiBold"/>
+
+                </StackPanel>
+
+                <StackPanel HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                            x:Name="BtnMinimize"
+                            Click="BtnMinimize_Click"
+                            Cursor="Hand"
+                            Margin="0 5 0 0">
+                        <materialDesign:PackIcon Kind="WindowMinimize"
+                                                 Foreground="White"
+                                                 Width="15"
+                                                 Height="15"/>
+                    </Button>
+
+                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                            x:Name="BtnMaximize"
+                            Click="BtnMaximize_Click"
+                            Cursor="Hand"
+                            Margin="0 5 0 0">
+                        <materialDesign:PackIcon Kind="WindowMaximize"
+                                                 Foreground="White"
+                                                 Width="15"
+                                                 Height="15"/>
+                    </Button>
+
+                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                            x:Name="BtnClose"
+                            Click="BtnClose_Click"
+                            Cursor="Hand"
+                            Margin="0 5 0 0">
+                        <materialDesign:PackIcon Kind="Close"
+                                                 Foreground="White"
+                                                 Width="15"
+                                                 Height="15"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <materialDesign:Card Grid.Row="1">
+            <TabControl HorizontalContentAlignment="Left"
+                        materialDesign:ColorZoneAssist.Mode="SecondaryMid"
+                        Style="{StaticResource MaterialDesignFilledTabControl}"
+                        SelectedItem="{Binding SelectedTabItem}">
+                <TabItem x:Name="EmployeeTab"
+                         Header="Сотрудники"
+                         Cursor="Hand">
+                    <TabItem.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Редактировать" Command="{Binding OpenEditItem}"/>
+                            <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
+                        </ContextMenu>
+                    </TabItem.ContextMenu>
+                    <ListView x:Name="LVEmployee"
+                              ItemsSource="{Binding AllEmployees}"
+                              SelectedItem="{Binding SelectedEmployee}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Фамилия"
+                                                DisplayMemberBinding="{Binding Path=Surname}"/>
+                                <GridViewColumn Header="Имя"
+                                                DisplayMemberBinding="{Binding Path=Name}"/>
+                                <GridViewColumn Header="Телефон"
+                                                DisplayMemberBinding="{Binding Path=Phone}"/>
+                                <GridViewColumn Header="Зарплата"
+                                                DisplayMemberBinding="{Binding Path=EmloyeePosition.Salary}"/>
+                                <GridViewColumn Header="Должность"
+                                                DisplayMemberBinding="{Binding                                      Path=EmloyeePosition.PositionName}"/>
+                                <GridViewColumn Header="Отдел"
+                                                DisplayMemberBinding="{Binding Path=EmloyeePosition.PositionDepartment.DepartmentName}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+
+                <TabItem x:Name="PositionsTab"
+                         Header="Должность"
+                          Cursor="Hand">
+                    <TabItem.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Редактировать" Command="{Binding OpenEditItem}"/>
+                            <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
+                        </ContextMenu>
+                    </TabItem.ContextMenu>
+                    <ListView x:Name="LVPosition"
+                              ItemsSource="{Binding AllPositions}"
+                              SelectedItem="{Binding SelectedPosition}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Должность "
+                                                DisplayMemberBinding="{Binding Path=PositionName}"/>
+                                <GridViewColumn Header="Зарплата"
+                                                DisplayMemberBinding="{Binding Path=Salary}"/>
+                                <GridViewColumn Header="Кол-во сотрудников"
+                                                DisplayMemberBinding="{Binding Path=PositionEmployees.Count}"/>
+                                <GridViewColumn Header="Макс. кол-во сотрудников"
+                                                DisplayMemberBinding="{Binding Path=MaxCountOfEmployees}"/>
+                                <GridViewColumn Header="Отдел"
+                                                DisplayMemberBinding="{Binding Path=PositionDepartment.DepartmentName}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+
+                <TabItem x:Name="DepartmentsTab"
+                         Header="Отделы"
+                         Cursor="Hand">
+                    <TabItem.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Редактировать" Command="{Binding OpenEditItem}"/>
+                            <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
+                        </ContextMenu>
+                    </TabItem.ContextMenu>
+                    <ListView x:Name="LVDepartment"
+                              ItemsSource="{Binding AllDepartments}"
+                              SelectedItem="{Binding SelectedDepartment}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Отдел"
+                                                DisplayMemberBinding="{Binding Path=DepartmentName}"/>
+                                <GridViewColumn Header="Кол-во отделов"
+                                                DisplayMemberBinding="{Binding Path=DepartmentPositions.Count}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+            </TabControl>
+        </materialDesign:Card>
+        <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button Content="Добавить работника"
+                    Margin="0 0 20 0"
+                    Foreground="White"
+                    Cursor="Hand"
+                    Command="{Binding OpenAddEmployeeWindow}"/>
+            <Button Content="Добавить должность"
+                    Margin="0 0 20 0"
+                    Foreground="White"
+                    Cursor="Hand"
+                    Command="{Binding OpenAddPositionWindow}"/>
+            <Button Content="Добавить отдел"
+                    Margin="0 0 20 0"
+                    Foreground="White"
+                    Cursor="Hand"
+                    Command="{Binding OpenAddDepartmentWindow}"/>
+        </StackPanel>
+    </Grid>
+</Window>
